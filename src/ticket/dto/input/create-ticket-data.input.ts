@@ -1,31 +1,26 @@
 import { Field, Float, InputType } from '@nestjs/graphql';
 import { Min, ValidateIf } from 'class-validator';
-import { BadRequestException } from '@nestjs/common';
+import { IsExclusivelyDefined } from '../../../common/decorators/class-validator/is-exclusive.decorator';
+import { Exclude, Expose } from 'class-transformer';
 
+@Exclude()
 @InputType({})
 export class CreateTicketDataInput {
+  @Expose()
   @Min(0.01)
-  @ValidateIf(
-    (object) => {
-      // This was done just to keep all the validation in one place
-      if (object.buyerPrice && object.promoterReceivesPrice)
-        throw new BadRequestException({
-          message: 'Cannot pass both buyerPrice or promoterReceivesPrice',
-        });
-
-      return !object.promoterReceivesPrice;
-    },
-    {
-      message: 'Either buyerPrice or promoterReceivesPrice should be passed',
-    },
-  )
+  @IsExclusivelyDefined({
+    message: 'Either buyerPrice or promoterReceivesPrice should be passed',
+  })
+  @ValidateIf((object) => !object.promoterReceivesPrice)
   @Field(() => Float, { nullable: true })
   buyerPrice?: number;
 
+  @Expose()
   @Min(0.01)
-  @ValidateIf((object) => !object.buyerPrice, {
+  @IsExclusivelyDefined({
     message: 'Either buyerPrice or promoterReceivesPrice should be passed',
   })
+  @ValidateIf((object) => !object.buyerPrice)
   @Field(() => Float, { nullable: true })
   promoterReceivesPrice?: number;
 }
