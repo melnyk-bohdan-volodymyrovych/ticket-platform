@@ -66,6 +66,6 @@ describe('Ticket Resolver', () => {
 
     const exceptions = await validate(input);
 
-    expect(exceptions).toBeUndefined();
+    expect(exceptions.length).toBeGreaterThan(0);
   });
 });
