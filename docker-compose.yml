@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres-main:
+    container_name: postgres-nest
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres-nest
+      PGDATA: /data/postgres
+    volumes:
+      - postgres-volume:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+      - main-network
+    restart: unless-stopped
+
+  pgadmin-main:
+    container_name: pgadmin-nest
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-volume:/data/pgadmin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres-main
+    networks:
+      - postgres-network
+    restart: unless-stopped
+
+networks:
+  postgres-network:
+    driver: bridge
+  main-network:
+    driver: bridge
+  redis-network:
+    driver: bridge
+
+volumes:
+  postgres-volume:
+  pgadmin-volume:
+  redis-volume:
