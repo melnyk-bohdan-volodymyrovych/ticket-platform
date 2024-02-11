@@ -3,6 +3,8 @@ import { Ticket } from './models/ticket';
 import { GetTicketArgs } from './dto/args/get-ticket.args';
 import { TicketService } from './ticket.service';
 import { CreateTicketDataInput } from './dto/input/create-ticket-data.input';
+import { UseGuards } from '@nestjs/common';
+import { AdminGuard } from '../common/guards/admin.guard';
 
 @Resolver(() => Ticket)
 export class TicketResolver {
@@ -13,6 +15,7 @@ export class TicketResolver {
   }
 
   @Mutation(() => Ticket)
+  @UseGuards(AdminGuard)
   async createTicket(@Args('createTicket') ticketData: CreateTicketDataInput) {
     return this.service.createTicket(ticketData);
   }
