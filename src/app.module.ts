@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { TicketModule } from './ticket/ticket.module';
+import { ServiceFeeModule } from './service-fee/service-fee.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TicketModule } from './ticket/ticket.module';
     PrismaModule,
     TicketModule,
     UserModule,
+    ServiceFeeModule,
   ],
   controllers: [],
   providers: [],

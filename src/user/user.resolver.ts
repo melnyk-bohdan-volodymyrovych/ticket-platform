@@ -7,7 +7,7 @@ export class UserResolver {
   @Query(() => User, { name: 'user', nullable: false })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getUser(@Args() args: GetUserArgs) {
-    // this is just a boilerplate
+    // this is just a boilerplate. Add logic if needed
     return {};
   }
 }
