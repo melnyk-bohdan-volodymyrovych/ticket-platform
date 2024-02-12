@@ -15,3 +15,11 @@ model User {
   email String  @unique
   name  String?
 }
+
+model Ticket {
+  id                    Int    @id @default(autoincrement())
+  barcode               String
+  serviceFee            Float  @default(0.0)
+  buyerPrice            Float  @default(0.0)
+  promoterReceivesPrice Float  @default(0.0)
+}
